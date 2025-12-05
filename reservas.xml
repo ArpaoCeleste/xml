@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reservas xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="reservas.xsd">
+
+  <reserva numeroReserva="R001">
+    <hospede>
+      <numeroCliente>CLI123</numeroCliente>
+      <nome>João Silva</nome>
+      <nif>123456789</nif>
+      <email>joao.silva@example.com</email>
+      <telefone>912345678</telefone>
+    </hospede>
+    <unidade>LS</unidade>
+    <checkIn>2025-01-10</checkIn>
+    <checkOut>2025-01-15</checkOut>
+    <valorTotal>550.00</valorTotal>
+    <servicosAdicionais>
+      <servicoAdicional>
+        <tipo>spa</tipo>
+        <nome>Massagem Relaxante</nome>
+        <preco>60.00</preco>
+        <quantidade>2</quantidade>
+      </servicoAdicional>
+      <servicoAdicional>
+        <tipo>restaurante</tipo>
+        <nome>Jantar Gourmet</nome>
+        <preco>40.00</preco>
+        <quantidade>1</quantidade>
+      </servicoAdicional>
+    </servicosAdicionais>
+  </reserva>
+
+  <reserva numeroReserva="R002">
+    <hospede>
+      <numeroCliente>CLI456</numeroCliente>
+      <nome>Maria Costa</nome>
+      <nif>234567890</nif>
+      <email>maria.costa@example.com</email>
+      <telefone>934567890</telefone>
+    </hospede>
+    <unidade>PO</unidade>
+    <checkIn>2025-02-01</checkIn>
+    <checkOut>2025-02-05</checkOut>
+    <valorTotal>320.00</valorTotal>
+    <servicosAdicionais>
+      <servicoAdicional>
+        <tipo>transporte</tipo>
+        <nome>Transfer Aeroporto</nome>
+        <preco>30.00</preco>
+        <quantidade>1</quantidade>
+      </servicoAdicional>
+    </servicosAdicionais>
+  </reserva>
+
+  <reserva numeroReserva="R003">
+    <hospede>
+      <numeroCliente>CLI123</numeroCliente>
+      <nome>João Silva</nome>
+      <nif>123456789</nif>
+      <email>joao.silva@example.com</email>
+      <telefone>912345678</telefone>
+    </hospede>
+    <unidade>BR</unidade>
+    <checkIn>2025-03-10</checkIn>
+    <checkOut>2025-03-12</checkOut>
+    <valorTotal>210.00</valorTotal>
+    <servicosAdicionais>
+      <servicoAdicional>
+        <tipo>spa</tipo>
+        <nome>Acesso Spa Diário</nome>
+        <preco>25.00</preco>
+        <quantidade>2</quantidade>
+      </servicoAdicional>
+      <servicoAdicional>
+        <tipo>restaurante</tipo>
+        <nome>Almoço Buffet</nome>
+        <preco>20.00</preco>
+        <quantidade>1</quantidade>
+      </servicoAdicional>
+      <servicoAdicional>
+        <tipo>transporte</tipo>
+        <nome>Táxi Hotel</nome>
+        <preco>15.00</preco>
+        <quantidade>1</quantidade>
+      </servicoAdicional>
+    </servicosAdicionais>
+  </reserva>
+
+</reservas>

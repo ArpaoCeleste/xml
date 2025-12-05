@@ -1,0 +1,86 @@
+[
+  {
+    "numeroReserva": "R001",
+    "hospede": {
+      "numeroCliente": "CLI123",
+      "nome": "João Silva",
+      "nif": "123456789",
+      "email": "joao.silva@example.com",
+      "telefone": "912345678"
+    },
+    "unidade": "LS",
+    "checkIn": "2025-01-10",
+    "checkOut": "2025-01-15",
+    "valorTotal": 550.00,
+    "servicosAdicionais": [
+      {
+        "tipo": "spa",
+        "nome": "Massagem Relaxante",
+        "preco": 60.00,
+        "quantidade": 2
+      },
+      {
+        "tipo": "restaurante",
+        "nome": "Jantar Gourmet",
+        "preco": 40.00,
+        "quantidade": 1
+      }
+    ]
+  },
+  {
+    "numeroReserva": "R002",
+    "hospede": {
+      "numeroCliente": "CLI456",
+      "nome": "Maria Costa",
+      "nif": "234567890",
+      "email": "maria.costa@example.com",
+      "telefone": "934567890"
+    },
+    "unidade": "PO",
+    "checkIn": "2025-02-01",
+    "checkOut": "2025-02-05",
+    "valorTotal": 320.00,
+    "servicosAdicionais": [
+      {
+        "tipo": "transporte",
+        "nome": "Transfer Aeroporto",
+        "preco": 30.00,
+        "quantidade": 1
+      }
+    ]
+  },
+  {
+    "numeroReserva": "R003",
+    "hospede": {
+      "numeroCliente": "CLI123",
+      "nome": "João Silva",
+      "nif": "123456789",
+      "email": "joao.silva@example.com",
+      "telefone": "912345678"
+    },
+    "unidade": "BR",
+    "checkIn": "2025-03-10",
+    "checkOut": "2025-03-12",
+    "valorTotal": 210.00,
+    "servicosAdicionais": [
+      {
+        "tipo": "spa",
+        "nome": "Acesso Spa Diário",
+        "preco": 25.00,
+        "quantidade": 2
+      },
+      {
+        "tipo": "restaurante",
+        "nome": "Almoço Buffet",
+        "preco": 20.00,
+        "quantidade": 1
+      },
+      {
+        "tipo": "transporte",
+        "nome": "Táxi Hotel",
+        "preco": 15.00,
+        "quantidade": 1
+      }
+    ]
+  }
+]
