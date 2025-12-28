@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Hotel Reservas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui.css">
+    <style>
+        .swagger-ui .topbar {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="swagger-ui"></div>
+
+    <script src="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui-bundle.js"></script>
+    <script>
+        const spec = {
+            openapi: "3.0.0",
+            info: {
+                title: "Hotel Reservas API",
+                version: "1.0.0",
+                description: "API REST para gestão de reservas de hotel inteligente.\n\n**Trabalho Prático PEID** - Processo, Estruturação e Integração de Dados\n\nDWDM - Desenvolvimento Web e Dispositivos Móveis | ESTG 2025/2026",
+                contact: {
+                    name: "ESTG - Politécnico do Porto"
+                }
+            },
+            servers: [
+                {
+                    url: "http://localhost:3000",
+                    description: "Servidor Local"
+                }
+            ],
+            tags: [
+                { name: "Reservas", description: "Operações relacionadas com reservas" },
+                { name: "Serviços", description: "Operações relacionadas com serviços adicionais" },
+                { name: "Estatísticas", description: "Dashboard e métricas" }
+            ],
+            paths: {
+                "/api/reservas": {
+                    get: {
+                        tags: ["Reservas"],
+                        summary: "Obter todas as reservas",
+                        description: "Retorna a lista completa de todas as reservas no sistema",
+                        responses: {
+                            200: {
+                                description: "Lista de reservas obtida com sucesso",
+                                content: {
+                                    "application/json": {
+                                        schema: {
+                                            type: "object",
+                                            properties: {
+                                                sucesso: { type: "boolean", example: true },
+                                                total: { type: "integer", example: 5 },
+                                                dados: {
+                                                    type: "array",
+                                                    items: { $ref: "#/components/schemas/Reserva" }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "/api/reservas/hospede/{numeroCliente}": {
+                    get: {
+                        tags: ["Reservas"],
+                        summary: "Reservas de um hóspede",
+                        description: "Retorna todas as reservas associadas a um número de cliente específico",
+                        parameters: [
+                            {
+                                name: "numeroCliente",
+                                in: "path",
+                                required: true,
+                                description: "Número único do cliente (formato: 3 letras + 3 números)",
+                                schema: { type: "string", pattern: "[A-Z]{3}[0-9]{3}", example: "CLI123" }
+                            }
+                        ],
+                        responses: {
+                            200: {
+                                description: "Reservas do hóspede obtidas com sucesso",
+                                content: {
+                                    "application/json": {
+                                        schema: {
+                                            type: "object",
+                                            properties: {
+                                                sucesso: { type: "boolean" },
+                                                numeroCliente: { type: "string" },
+                                                totalReservas: { type: "integer" },
+                                                reservas: { type: "array", items: { $ref: "#/components/schemas/Reserva" } }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            404: { description: "Hóspede não encontrado" }
+                        }
+                    }
+                },
+                "/api/reservas/{numeroReserva}": {
+                    get: {
+                        tags: ["Reservas"],
+                        summary: "Dados de uma reserva específica",
+                        description: "Retorna todos os detalhes de uma reserva pelo seu número único",
+                        parameters: [
+                            {
+                                name: "numeroReserva",
+                                in: "path",
+                                required: true,
+                                description: "Número único da reserva (formato: RESxxx)",
+                                schema: { type: "string", pattern: "RES[0-9]{3}", example: "RES001" }
+                            }
+                        ],
+                        responses: {
+                            200: {
+                                description: "Reserva encontrada com sucesso",
+                                content: {
+                                    "application/json": {
+                                        schema: {
+                                            type: "object",
+                                            properties: {
+                                                sucesso: { type: "boolean", example: true },
+                                                dados: { $ref: "#/components/schemas/Reserva" }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            404: {
+                                description: "Reserva não encontrada",
+                                content: {
+                                    "application/json": {
+                                        schema: {
+                                            type: "object",
+                                            properties: {
+                                                sucesso: { type: "boolean", example: false },
+                                                erro: { type: "string", example: "Reserva não encontrada" }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "/api/reservas/unidade": {
+                    get: {
+                        tags: ["Reservas"],
+                        summary: "Quantidade de reservas por unidade",
+                        description: "Agrupa e conta as reservas por cada unidade hoteleira (LS, PO, CB, FR, BR)",
+                        responses: {
+                            200: {
+                                description: "Estatísticas por unidade",
+                                content: {
+                                    "application/json": {
+                                        schema: {
+                                            type: "object",
+                                            properties: {
+                                                sucesso: { type: "boolean" },
+                                                reservasPorUnidade: {
+                                                    type: "array",
+                                                    items: {
+                                                        type: "object",
+                                                        properties: {
+                                                            unidade: { type: "string", example: "PO" },
+                                                            nomeUnidade: { type: "string", example: "Porto" },
+                                                            quantidadeReservas: { type: "integer", example: 3 }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "/api/reservas/media": {
+                    get: {
+                        tags: ["Reservas"],
+                        summary: "Valor médio das reservas",
+                        description: "Calcula o valor médio de todas as reservas no sistema",
+                        responses: {
+                            200: {
+                                description: "Valor médio calculado",
+                                content: {
+                                    "application/json": {
+                                        schema: {
+                                            type: "object",
+                                            properties: {
+                                                sucesso: { type: "boolean" },
+                                                valorMedio: { type: "number", example: 450.50 },
+                                                totalReservas: { type: "integer", example: 5 }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "/api/reservas/maior": {
+                    get: {
+                        tags: ["Reservas"],
+                        summary: "Maior valor de reserva",
+                        description: "Retorna a reserva com o maior valor total",
+                        responses: {
+                            200: {
+                                description: "Reserva com maior valor",
+                                content: {
+                                    "application/json": {
+                                        schema: {
+                                            type: "object",
+                                            properties: {
+                                                sucesso: { type: "boolean" },
+                                                maiorReserva: { $ref: "#/components/schemas/Reserva" }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "/api/reservas/{numeroReserva}": {
+                    get: {
+                        tags: ["Reservas"],
+                        summary: "Dados de uma reserva específica",
+                        description: "Retorna todos os dados de uma reserva pelo seu número",
+                        parameters: [
+                            {
+                                name: "numeroReserva",
+                                in: "path",
+                                required: true,
+                                description: "Número da reserva (formato: R + 3 números)",
+                                schema: { type: "string", pattern: "R[0-9]{3}", example: "R001" }
+                            }
+                        ],
+                        responses: {
+                            200: {
+                                description: "Dados da reserva",
+                                content: {
+                                    "application/json": {
+                                        schema: {
+                                            type: "object",
+                                            properties: {
+                                                sucesso: { type: "boolean" },
+                                                reserva: { $ref: "#/components/schemas/Reserva" }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            404: { description: "Reserva não encontrada" }
+                        }
+                    }
+                },
+                "/api/servicos/total": {
+                    get: {
+                        tags: ["Serviços"],
+                        summary: "Total de serviços vendidos",
+                        description: "Retorna o total de serviços adicionais vendidos, agrupados por tipo",
+                        responses: {
+                            200: {
+                                description: "Estatísticas de serviços",
+                                content: {
+                                    "application/json": {
+                                        schema: {
+                                            type: "object",
+                                            properties: {
+                                                sucesso: { type: "boolean" },
+                                                totalServicos: { type: "integer" },
+                                                servicosPorTipo: {
+                                                    type: "array",
+                                                    items: {
+                                                        type: "object",
+                                                        properties: {
+                                                            tipo: { type: "string", enum: ["spa", "restaurante", "transporte", "outros"] },
+                                                            totalServicos: { type: "integer" },
+                                                            quantidadeTotal: { type: "integer" },
+                                                            valorTotal: { type: "number" }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "/api/estatisticas": {
+                    get: {
+                        tags: ["Estatísticas"],
+                        summary: "Dashboard estatísticas",
+                        description: "Retorna todas as estatísticas para o dashboard",
+                        responses: {
+                            200: {
+                                description: "Estatísticas do dashboard",
+                                content: {
+                                    "application/json": {
+                                        schema: {
+                                            type: "object",
+                                            properties: {
+                                                sucesso: { type: "boolean" },
+                                                estatisticas: {
+                                                    type: "object",
+                                                    properties: {
+                                                        totalReservas: { type: "integer", example: 5 },
+                                                        valorTotal: { type: "number", example: 2250.00 },
+                                                        valorMedio: { type: "number", example: 450.00 },
+                                                        totalServicos: { type: "integer", example: 12 }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            components: {
+                schemas: {
+                    Reserva: {
+                        type: "object",
+                        properties: {
+                            numeroReserva: { type: "string", example: "R001", description: "Formato: R + 3 números" },
+                            hospede: { $ref: "#/components/schemas/Hospede" },
+                            unidade: { type: "string", enum: ["LS", "PO", "CB", "FR", "BR"], example: "PO" },
+                            checkIn: { type: "string", format: "date", example: "2024-12-20" },
+                            checkOut: { type: "string", format: "date", example: "2024-12-25" },
+                            valorTotal: { type: "number", example: 750.00 },
+                            servicosAdicionais: {
+                                type: "array",
+                                maxItems: 4,
+                                items: { $ref: "#/components/schemas/ServicoAdicional" }
+                            }
+                        }
+                    },
+                    Hospede: {
+                        type: "object",
+                        properties: {
+                            numeroCliente: { type: "string", pattern: "[A-Z]{3}[0-9]{3}", example: "CLI123" },
+                            nome: { type: "string", example: "João Silva" },
+                            nif: { type: "string", pattern: "[0-9]{9}", example: "123456789" },
+                            email: { type: "string", format: "email", example: "joao.silva@email.com" },
+                            telefone: { type: "string", pattern: "9[0-9]{8}", example: "912345678" }
+                        }
+                    },
+                    ServicoAdicional: {
+                        type: "object",
+                        properties: {
+                            tipo: { type: "string", enum: ["spa", "restaurante", "transporte", "outros"], example: "spa" },
+                            preco: { type: "number", example: 50.00 },
+                            quantidade: { type: "integer", example: 2 }
+                        }
+                    }
+                }
+            }
+        };
+
+        window.onload = function () {
+            SwaggerUIBundle({
+                spec: spec,
+                dom_id: '#swagger-ui',
+                deepLinking: true,
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIBundle.SwaggerUIStandalonePreset
+                ],
+                layout: "BaseLayout"
+            });
+        };
+    </script>
+    <script>
+        const canvas = document.getElementById('sparklesCanvas');
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+        const COLORS = ["#a855f7", "#8c76a8", "#5d3e8f", "#d8b4fe", "#ffffff"];
+        const sparkles = [];
+        for (let i = 0; i < 80; i++) { sparkles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, size: Math.random() * 3 + 1, alpha: Math.random(), alphaSpeed: (Math.random() - 0.5) * 0.02, color: COLORS[Math.floor(Math.random() * COLORS.length)] }); }
+        function animateSparkles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            sparkles.forEach(s => { s.alpha += s.alphaSpeed; if (s.alpha <= 0.1 || s.alpha >= 1) s.alphaSpeed *= -1; s.alpha = Math.max(0.1, Math.min(1, s.alpha)); const r = parseInt(s.color.slice(1, 3), 16), g = parseInt(s.color.slice(3, 5), 16), b = parseInt(s.color.slice(5, 7), 16); ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${s.alpha})`; ctx.fill(); });
+            requestAnimationFrame(animateSparkles);
+        }
+        animateSparkles();
+    </script>
+</body>
+
+</html>
