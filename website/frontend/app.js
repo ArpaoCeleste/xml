@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     carregarDadosSelects();
     setupUrlUpdaters();
     setupFormCriar();
-});    
+});
 
 
 const swalConfig = {
@@ -395,6 +395,10 @@ async function carregarEstatisticas() {
             animateNumber('valor-total', stats.valorTotal, '€', true);
             animateNumber('valor-medio', stats.valorMedio, '€', true);
             animateNumber('total-servicos', stats.totalServicos);
+
+            if (stats.servicosPorTipo) {
+                updateServicoBadges(stats.servicosPorTipo);
+            }
         }
     } catch (error) {
         animateNumber('total-reservas', 9);
@@ -405,6 +409,21 @@ async function carregarEstatisticas() {
 
     carregarGraficos();
     carregarStatsUnidades();
+}
+
+function updateServicoBadges(servicosPorTipo) {
+    const badges = { spa: 0, restaurante: 0, transporte: 0, outros: 0 };
+
+    for (const tipo in servicosPorTipo) {
+        if (badges.hasOwnProperty(tipo)) {
+            badges[tipo] = servicosPorTipo[tipo];
+        }
+    }
+
+    Object.keys(badges).forEach(tipo => {
+        const el = document.getElementById(`count-${tipo}`);
+        if (el) el.textContent = badges[tipo];
+    });
 }
 
 async function carregarGraficos() {
