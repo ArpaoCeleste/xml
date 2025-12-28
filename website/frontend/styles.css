@@ -934,8 +934,9 @@ section,
 
 .endpoint-item {
     display: flex;
-    align-items: center;
-    gap: 1rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     padding: 0.75rem 1rem;
     background: rgba(0, 0, 0, 0.2);
     border-radius: 8px;
@@ -950,6 +951,7 @@ section,
     font-weight: 700;
     min-width: 40px;
     text-align: center;
+    flex-shrink: 0;
 }
 
 .endpoint-item code {
@@ -957,11 +959,14 @@ section,
     font-size: 0.85rem;
     color: var(--text-primary);
     flex: 1;
+    min-width: 0;
+    word-break: break-word;
 }
 
 .endpoint-desc {
     font-size: 0.8rem;
     color: var(--text-muted);
+    width: 100%;
 }
 
 .footer-tech {
@@ -3484,5 +3489,26 @@ div:where(.swal2-icon).swal2-success [class^=swal2-success-line] {
 
     .filter-group {
         align-items: flex-start;
+    }
+
+    .endpoint-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .endpoint-item code {
+        font-size: 0.75rem;
+    }
+
+    .endpoint-desc {
+        font-size: 0.7rem;
+    }
+
+    .custom-select {
+        font-size: 0.85rem;
+    }
+
+    .filter-group label {
+        font-size: 0.85rem;
     }
 }
