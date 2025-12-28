@@ -1824,6 +1824,7 @@ main {
     padding: 1.25rem;
     overflow-x: auto;
     border: 1px solid var(--border);
+    max-width: 100%;
 }
 
 .code-display code {
@@ -1831,7 +1832,14 @@ main {
     font-size: 0.8rem;
     line-height: 1.6;
     color: #e2e8f0;
-    white-space: pre;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+pre,
+code {
+    max-width: 100%;
+    overflow-wrap: break-word;
 }
 
 .xsd-types h3 {
@@ -3465,5 +3473,16 @@ div:where(.swal2-icon).swal2-success [class^=swal2-success-line] {
 
     .section-intro p {
         font-size: 0.8rem;
+    }
+
+    .query-header,
+    .query-controls,
+    .filter-group,
+    label {
+        text-align: left;
+    }
+
+    .filter-group {
+        align-items: flex-start;
     }
 }
