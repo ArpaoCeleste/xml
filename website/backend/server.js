@@ -295,7 +295,7 @@ app.get('/api/estatisticas', async (req, res) => {
 
 const XSD_RULES = {
     numeroReserva: /^RES\d{3}$/,
-    numeroCliente: /^[A-Z]{3}\d{3}$/, // Ex: CLI123
+    numeroCliente: /^[A-Z]{3}\d{3}$/,
     unidades: ['LS', 'PO', 'CB', 'FR', 'BR'],
     maxServicos: 4
 };
