@@ -868,17 +868,17 @@ async function executarQuery(tipo) {
                                 : '<span style="color:#666; font-style:italic;">Sem serviços</span>';
 
                             resultDiv.innerHTML = `
-                                <div style="background: var(--bg-card); border: 1px solid #dc2626; border-radius: 16px; padding: 20px; text-align: left; animation: fadeIn 0.5s;">
+                                <div style="background: var(--bg-card); border: 1px solid var(--accent-primary); border-radius: 16px; padding: 20px; text-align: left; animation: fadeIn 0.5s;">
                                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid var(--border); padding-bottom:10px;">
-                                        <h3 style="margin:0; color:white; font-size:1.2rem;"><i class="fas fa-trash" style="color:#dc2626;"></i> Reserva Eliminada</h3>
-                                        <span style="background:rgba(220,38,38,0.2); border: 1px solid #dc2626; padding:4px 10px; border-radius:12px; font-size:0.8rem; font-weight:bold; color:#dc2626;">${reserva.numeroReserva}</span>
+                                        <h3 style="margin:0; color:white; font-size:1.2rem;"><i class="fas fa-trash" style="color:var(--accent-primary);"></i> Reserva Eliminada</h3>
+                                        <span style="background:var(--gradient-primary); padding:4px 10px; border-radius:12px; font-size:0.8rem; font-weight:bold;">${reserva.numeroReserva}</span>
                                     </div>
                                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.9rem; color:var(--text-secondary);">
                                         <div><strong style="color:white;">Hóspede:</strong><br>${reserva.hospede.nome}</div>
                                         <div><strong style="color:white;">Unidade:</strong><br>${reserva.unidade} - Quarto ${reserva.quarto}</div>
                                         <div><strong style="color:white;">Check-in:</strong><br>${reserva.checkIn}</div>
                                         <div><strong style="color:white;">Check-out:</strong><br>${reserva.checkOut}</div>
-                                        <div><strong style="color:white;">Valor Total:</strong><br><span style="color:#dc2626; font-weight:bold; font-size:1.1rem;">€${reserva.valorTotal}</span></div>
+                                        <div><strong style="color:white;">Valor Total:</strong><br><span style="color:var(--accent-primary); font-weight:bold; font-size:1.1rem;">€${reserva.valorTotal}</span></div>
                                         <div><strong style="color:white;">Cliente:</strong><br>${reserva.hospede.numeroCliente}</div>
                                     </div>
                                     <div style="margin-top:15px; padding-top:10px; border-top:1px dashed var(--border);">
