@@ -23,6 +23,9 @@ function setupFormAtualizar() {
                 document.getElementById('edit-unidade').value = reserva.unidade || '';
                 document.getElementById('edit-nome').value = reserva.hospede?.nome || '';
                 document.getElementById('edit-id-cliente').value = reserva.hospede?.numeroCliente || '';
+                document.getElementById('edit-nif').value = reserva.hospede?.nif || '';
+                document.getElementById('edit-email').value = reserva.hospede?.email || '';
+                document.getElementById('edit-telefone').value = reserva.hospede?.telefone || '';
                 document.getElementById('edit-quarto').value = reserva.quarto || '';
                 document.getElementById('edit-valor').value = reserva.valorTotal || 0;
                 document.getElementById('edit-checkin').value = reserva.checkIn || '';
@@ -190,7 +193,10 @@ function setupFormAtualizar() {
             checkOut: checkOut,
             hospede: {
                 numeroCliente: document.getElementById('edit-id-cliente').value,
-                nome: document.getElementById('edit-nome').value
+                nome: document.getElementById('edit-nome').value,
+                nif: document.getElementById('edit-nif').value,
+                email: document.getElementById('edit-email').value,
+                telefone: document.getElementById('edit-telefone').value
             },
             servicosAdicionais: servicos
         };

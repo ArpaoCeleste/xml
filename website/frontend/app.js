@@ -183,12 +183,16 @@ function setupFormCriar() {
             return;
         }
 
+
         const data = {
             numeroReserva: document.getElementById('novo-id-reserva').value,
             unidade: document.getElementById('novo-unidade').value,
             hospede: {
                 nome: document.getElementById('novo-nome').value,
-                numeroCliente: document.getElementById('novo-id-cliente').value
+                numeroCliente: document.getElementById('novo-id-cliente').value,
+                nif: document.getElementById('novo-nif').value,
+                email: document.getElementById('novo-email').value,
+                telefone: document.getElementById('novo-telefone').value
             },
             quarto: document.getElementById('novo-quarto').value,
             checkIn: checkIn,
@@ -196,6 +200,7 @@ function setupFormCriar() {
             valorTotal: parseFloat(document.getElementById('novo-valor').value),
             servicosAdicionais: servicos
         };
+
 
         try {
             const response = await fetch(`${API_URL}/api/reservas`, {
@@ -575,17 +580,17 @@ function renderChartServicos(data, containerId = 'chart-servicos') {
             }]
         },
         options: {
-            indexAxis: 'y', // Gráfico horizontal para ser "diferente" e "fixe"
+            indexAxis: 'y',
             responsive: true,
             maintainAspectRatio: false,
             layout: {
                 padding: {
-                    right: 20 // Espaço extra para tooltips não cortarem
+                    right: 20
                 }
             },
             plugins: {
                 legend: {
-                    display: false // Esconder legenda redundante em barras
+                    display: false
                 },
                 tooltip: {
                     backgroundColor: 'rgba(30, 27, 46, 0.9)',
@@ -972,13 +977,13 @@ async function executarQueryMongo(tipo) {
         const response = await fetch(url);
         const data = await response.json();
 
-        // Limpar resultado anterior e preparar layout
+
         resultDiv.innerHTML = '';
         resultDiv.style.height = 'auto';
 
-        // Helper para criar estrutura de Toggle (Default: JSON)
+
         const createToggleStructure = (tipo) => {
-            // Header com Botão
+
             const controls = document.createElement('div');
             controls.style.display = 'flex';
             controls.style.justifyContent = 'flex-end';
@@ -987,7 +992,7 @@ async function executarQueryMongo(tipo) {
             const btn = document.createElement('button');
             btn.id = `btn-toggle-${tipo}`;
             btn.className = 'btn-secondary';
-            btn.innerHTML = '<i class="fas fa-chart-bar"></i> Ver Gráfico'; // Botão sugere ver o gráfico (que está escondido)
+            btn.innerHTML = '<i class="fas fa-chart-bar"></i> Ver Gráfico';
             btn.style.fontSize = '0.8rem';
             btn.style.padding = '0.4rem 0.8rem';
             btn.onclick = () => window.toggleResultView(tipo);
@@ -995,7 +1000,7 @@ async function executarQueryMongo(tipo) {
             controls.appendChild(btn);
             resultDiv.appendChild(controls);
 
-            // Container Visual (Gráfico/Cards) - INICIALMENTE ESCONDIDO (display: none) "tira o gráfico"
+
             const visContainer = document.createElement('div');
             visContainer.id = `vis-container-${tipo}`;
             visContainer.style.display = 'none';
@@ -1004,7 +1009,7 @@ async function executarQueryMongo(tipo) {
             visContainer.style.position = 'relative';
             resultDiv.appendChild(visContainer);
 
-            // Container JSON - INICIALMENTE VISÍVEL
+
             const jsonContainer = document.createElement('div');
             jsonContainer.id = `json-container-${tipo}`;
             jsonContainer.className = 'json-output-container';
@@ -1018,7 +1023,7 @@ async function executarQueryMongo(tipo) {
             return visContainer;
         };
 
-        if (tipo === 'mongo1') { // Serviços
+        if (tipo === 'mongo1') {
             const visContainer = createToggleStructure(tipo);
             if (data.sucesso && Array.isArray(data.servicosPorTipo)) {
                 renderChartServicos(data.servicosPorTipo, visContainer.id);
@@ -1026,7 +1031,7 @@ async function executarQueryMongo(tipo) {
                 visContainer.innerHTML = `<div class="placeholder error"><p>Dados insuficientes para gráfico.</p></div>`;
             }
         }
-        else if (tipo === 'mongo2') { // Unidades
+        else if (tipo === 'mongo2') {
             const visContainer = createToggleStructure(tipo);
             if (data.sucesso && Array.isArray(data.unidades)) {
                 renderChartUnidades(data.unidades, visContainer.id);
@@ -1034,7 +1039,7 @@ async function executarQueryMongo(tipo) {
                 visContainer.innerHTML = `<div class="placeholder error"><p>Dados insuficientes para gráfico.</p></div>`;
             }
         }
-        else if (tipo === 'mongo3') { // Média
+        else if (tipo === 'mongo3') {
             const visContainer = createToggleStructure(tipo);
             visContainer.style.minHeight = 'auto';
 
@@ -1207,7 +1212,7 @@ async function executarQueryXQ(tipo) {
 
         resultDiv.innerHTML = '';
 
-        // Helper para criar estrutura de Toggle (igual ao Mongo)
+
         const createToggleStructure = (tipo) => {
             const controls = document.createElement('div');
             controls.style.display = 'flex';
@@ -1225,7 +1230,6 @@ async function executarQueryXQ(tipo) {
             controls.appendChild(btn);
             resultDiv.appendChild(controls);
 
-            // Container Visual (Timeline/Cards/Recibo) - INICIALMENTE ESCONDIDO
             const visContainer = document.createElement('div');
             visContainer.id = `vis-container-${tipo}`;
             visContainer.style.display = 'none';
@@ -1234,7 +1238,7 @@ async function executarQueryXQ(tipo) {
             visContainer.style.position = 'relative';
             resultDiv.appendChild(visContainer);
 
-            // Container JSON - INICIALMENTE VISÍVEL
+
             const jsonContainer = document.createElement('div');
             jsonContainer.id = `json-container-${tipo}`;
             jsonContainer.className = 'json-output-container';
@@ -1249,7 +1253,7 @@ async function executarQueryXQ(tipo) {
         };
 
         if (tipo === 'xq1') {
-            // Timeline de Viagens (Histórico do Hóspede)
+
             const visContainer = createToggleStructure(tipo);
 
             if (data.sucesso && data.reservas && data.reservas.length > 0) {
@@ -1289,7 +1293,7 @@ async function executarQueryXQ(tipo) {
             }
         }
         else if (tipo === 'xq2') {
-            // Cards Estilo Postal (Unidades)
+
             const visContainer = createToggleStructure(tipo);
 
             if (data.sucesso && data.unidades && data.unidades.length > 0) {
@@ -1322,7 +1326,7 @@ async function executarQueryXQ(tipo) {
             }
         }
         else if (tipo === 'xq3') {
-            // Recibo/Fatura Digital (Serviços)
+
             const visContainer = createToggleStructure(tipo);
 
             if (data.sucesso && data.servicosPorTipo && data.servicosPorTipo.length > 0) {
@@ -1381,7 +1385,7 @@ async function executarQueryXQ(tipo) {
             }
         }
         else {
-            // Fallback: JSON padrão (createToggleStructure já cria o JSON container)
+
             createToggleStructure(tipo);
         }
 
